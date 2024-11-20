@@ -1,0 +1,35 @@
+.background {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(248, 248, 248);
+    overflow: hidden;
+}
+
+.logo {
+
+}
+
+.navBar {
+    width: 15vw;
+    height: 100vh;
+
+    background-color: rgba(107, 136, 204, 0.35);
+    overflow: hidden;
+
+    position: absolute;
+    left: 0;
+}
+
+.navBar ul {
+    width: 100%;
+
+    list-style-type: none;
+    margin: 0;
+    margin-left: 10%;
+    padding: 0;
+}
+
+.navBar a {
+    color: white;
+    text-decoration: none;
+}
