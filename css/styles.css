@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Font+Name:wght@400;700&display=swap');
+*{font-family: "Public Sans";}
+
 .background {
     width: 100vw;
     height: 100vh;
@@ -6,11 +9,17 @@
 }
 
 .logo {
+    width: 75%;
 
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5vw;
+    margin-bottom: 5vw;
 }
 
 .navBar {
-    width: 15vw;
+    width: 18vw;
     height: 100vh;
 
     background-color: rgba(107, 136, 204, 0.35);
@@ -29,7 +38,22 @@
     padding: 0;
 }
 
+.navBar li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15%;
+}
+
 .navBar a {
-    color: white;
+    color: rgb(104, 108, 118);
+    font-size: 1.25vw;
+    font-weight: 300;
     text-decoration: none;
+    font-family: "Public Sans";
+}
+
+.navBar li img {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 1.5vw;
 }
