@@ -16,8 +16,8 @@ if ($conn->connect_error) {
 echo "Connected!<br>";
 
 // Path to SQL setups
-$sql_init_file = 'sql/setup/initialize_table.sql';
-$sql_data_file = 'sql/setup/initialize_data.sql';
+$sql_init_file = 'sql/initialize_table.sql';
+$sql_data_file = 'sql/initialize_data.sql';
 
 // Read Initialization SQL file
 $sql = file_get_contents($sql_init_file);
