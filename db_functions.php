@@ -1,34 +1,65 @@
 <?php
 // db_functions.php
-function createDatabase($conn, $dbname) {
-    $sql = "CREATE DATABASE IF NOT EXISTS $dbname";
-    if ($conn->query($sql) === TRUE) {
-        echo "Database '$dbname' created successfully.<br>";
-    } else {
-        echo "Error creating database: " . $conn->error . "<br>";
+function connectDatabase() {
+    $host = 'localhost';
+    $dbname = 'library';
+    $username = 'root';
+    $password = '';
+
+    $conn = new mysqli($host, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
+
+    return $conn;
 }
 
-function createUsersTable($conn) {
-    $sql = "CREATE TABLE IF NOT EXISTS users (
-        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        username VARCHAR(50) NOT NULL,
-        email VARCHAR(100) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )";
-    if ($conn->query($sql) === TRUE) {
-        echo "Table 'users' created successfully.<br>";
-    } else {
-        echo "Error creating table: " . $conn->error . "<br>";
+function getBooks() {
+    $conn = connectDatabase();
+    $sql = 
+    "SELECT 
+        b.title AS Book_Title,
+        p.isbn AS ISBN,
+        c.first_name AS Customer_First_Name,
+        c.last_name AS Customer_Last_Name,
+        l.checkout_date AS Checkout_Date,
+        l.late_fee AS Late_Fee
+    FROM 
+        Loan l
+    JOIN 
+        Copy cp ON l.loan_id = cp.loan_id
+    JOIN 
+        Publication p ON cp.copy_id = p.copy_id
+    JOIN 
+        Book b ON p.book_id = b.book_id
+    JOIN 
+        Customer c ON l.card_number = c.card_number;";
+    $result = $conn->query($sql);
+    
+    $books = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $books[] = $row;
+        }
     }
+    $conn->close();
+    return $books;
 }
 
-function insertSampleData($conn) {
-    $sql = "INSERT INTO users (username, email) VALUES ('John Doe', 'johndoe@example.com')";
-    if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully.<br>";
+function displayBooks($books) {
+    if (empty($books)) {
+        echo "<tr><td colspan='4'>No books found.</td></tr>";
     } else {
-        echo "Error inserting data: " . $conn->error . "<br>";
+        foreach ($books as $book) {
+            echo "<tr>";
+            echo "<td>" . $book['id'] . "</td>";
+            echo "<td>" . $book['title'] . "</td>";
+            echo "<td>" . $book['author'] . "</td>";
+            echo "<td>" . $book['published_year'] . "</td>";
+            echo "</tr>";
+        }
     }
+
 }
 ?>
