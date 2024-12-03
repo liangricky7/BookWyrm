@@ -15,9 +15,6 @@ if ($conn->connect_error) {
 
 // Check if database exists
 $result = $conn->query("SHOW DATABASES LIKE '$dbname'");
-if ($result->num_rows > 0) {
-    $conn->query("DROP DATABASE `$dbname`");
-}
 
 // If databse doesn't exist, create it
 if ($result->num_rows == 0) {
@@ -200,7 +197,7 @@ function displayBooks($books) {
         foreach ($books as $book) {
             echo "<tr>";
             echo "<td>" . $book['Book_Title'] . "</td>";
-            echo "<td>" . (is_null($book['ISBN']) ? "EBook" : $book['ISBN']) . "</td>";
+            echo "<td class='ISBN'>" . (is_null($book['ISBN']) ? "EBook" : $book['ISBN']) . "</td>";
             echo "<td>" . $book['Full_Name'] . "</td>";
             echo "<td>" . $book['Checkout_Date'] . "</td>";
             echo "<td>" . $book['Due_Date'] . "</td>";
@@ -223,17 +220,17 @@ function displayBooks($books) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     </head>
-<!--     
+    
     <div class="navBar">
         <img src="assets/Logo.png" alt="Book Wyrm Logo" class="logo">
         <ul>
-            <li><a href="/index.html" class="activePage"><img src="assets/NavBar/Dashboard.png" alt="Dashboard">Dashboard</a></li>
-            <li><a href="/pages/books.html"><img src="assets/NavBar/ManageBooks.png" alt="Manage Books">Manage Books</a></li>
-            <li><a href="/pages/patrons.html"><img src="assets/NavBar/ManagePatrons.png" alt="Manage Patrons">Manage Patrons</a></li>
-            <li><a href="/pages/reservations.html"><img src="assets/NavBar/Reservations.png" alt="Reservations">Reservations</a></li>
-            <li><a href="/pages/fines.html"><img src="assets/NavBar/Payments.png" alt="Payments/Fines">Payments/Fines</a></li>
+            <li><a href="/index.php" class="activePage"><img src="assets/NavBar/Dashboard.png" alt="Dashboard">Loaned Books</a></li>
+            <li><a href="/pages/books.php"><img src="assets/NavBar/ManageBooks.png" alt="Inventory">Inventory</a></li>
+            <li><a href="/pages/patrons.php"><img src="assets/NavBar/ManagePatrons.png" alt="Books">Book Dashboard</a></li>
+            <li><a href="/pages/reservations.php"><img src="assets/NavBar/Reservations.png" alt="Reservations">Reservations</a></li>
+            <li><a href="/pages/fines.php"><img src="assets/NavBar/Payments.png" alt="Payments/Fines">Payments/Fines</a></li>
         </ul>
-    </div> -->
+    </div>
 
     <body class="background">
         <div class="tableBackground">
@@ -250,80 +247,6 @@ function displayBooks($books) {
                   </tr>
                 </thead>
                 <?php displayBooks(getBooks())?>
-                <!-- <tbody>
-                    <tr>
-                        <th>"..."</th>
-                        <th class="ISBN">0000000000000</th>
-                        <th>Jacob Marcus</th>
-                        <th>11/15/2024</th>
-                        <th>11/29/2024</th>
-                        <th>$000</th>
-                    </tr>
-                    <tr>
-                        <th>"..."</th>
-                        <th class="ISBN">0000000000000</th>
-                        <th>Jacob Marcus</th>
-                        <th>11/15/2024</th>
-                        <th>11/29/2024</th>
-                        <th>$000</th>
-                    </tr>
-                    <tr>
-                        <th>"..."</th>
-                        <th class="ISBN">0000000000000</th>
-                        <th>Jacob Marcus</th>
-                        <th>11/15/2024</th>
-                        <th>11/29/2024</th>
-                        <th>$000</th>
-                    </tr>
-                    <tr>
-                        <th>"..."</th>
-                        <th class="ISBN">0000000000000</th>
-                        <th>Jacob Marcus</th>
-                        <th>11/15/2024</th>
-                        <th>11/29/2024</th>
-                        <th>$000</th>
-                    </tr>
-                    <tr>
-                        <th>"..."</th>
-                        <th class="ISBN">0000000000000</th>
-                        <th>Jacob Marcus</th>
-                        <th>11/15/2024</th>
-                        <th>11/29/2024</th>
-                        <th>$000</th>
-                    </tr>
-                    <tr>
-                        <th>"..."</th>
-                        <th class="ISBN">0000000000000</th>
-                        <th>Jacob Marcus</th>
-                        <th>11/15/2024</th>
-                        <th>11/29/2024</th>
-                        <th>$000</th>
-                    </tr>
-                    <tr>
-                        <th>"..."</th>
-                        <th class="ISBN">0000000000000</th>
-                        <th>Jacob Marcus</th>
-                        <th>11/15/2024</th>
-                        <th>11/29/2024</th>
-                        <th>$000</th>
-                    </tr>
-                    <tr>
-                        <th>"..."</th>
-                        <th class="ISBN">0000000000000</th>
-                        <th>Jacob Marcus</th>
-                        <th>11/15/2024</th>
-                        <th>11/29/2024</th>
-                        <th>$000</th>
-                    </tr>
-                    <tr>
-                        <th>"..."</th>
-                        <th class="ISBN">0000000000000</th>
-                        <th>Jacob Marcus</th>
-                        <th>11/15/2024</th>
-                        <th>11/29/2024</th>
-                        <th>$000</th>
-                    </tr>
-                </tbody>  -->
               </table>
         </div>
 
