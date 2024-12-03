@@ -22,6 +22,7 @@
         </ul>
     </div>
     <body class="background">
+    <div class="spacer"></div>
     <div class="tableBackground">
             <table>
                 <thead>
