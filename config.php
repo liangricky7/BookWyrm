@@ -5,7 +5,7 @@ $username = "root";         // MySQL username (root for local setup)
 $password = "";             // MySQL password (empty by default for local dev)
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password);
 
 // Check connection
 if ($conn->connect_error) {
