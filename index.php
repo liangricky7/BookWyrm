@@ -53,22 +53,7 @@ if ($result->num_rows == 0) {
 // Close the database connection
 $conn->close();
 
-function connectDatabase() {
-    $host = '127.0.0.1';
-    $dbname = 'library';
-    $username = 'root';
-    $password = '';
-
-    $conn = new mysqli($host, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    return $conn;
-}
-
-function test() {
+function debugDB() {
     // Database connection parameters
     $servername = "localhost";
     $username = "root";
@@ -158,65 +143,21 @@ function test() {
     }
 }
 
-function findOut() {
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "library";
+function connectDatabase() {
+    $host = '127.0.0.1';
+    $dbname = 'library';
+    $username = 'root';
+    $password = '';
 
-try {
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    
-    // Check connection
+    $conn = new mysqli($host, $username, $password, $dbname);
+
     if ($conn->connect_error) {
-        throw new Exception("Connection failed: " . $conn->connect_error);
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    // // SQL Insert statement
-    // $sql = "INSERT INTO Genre (genre, description) VALUES 
-    // ('Fantasy', 'Books that contain magical elements and fantastical creatures'),
-    // ('Science Fiction', 'Books based on futuristic technology or speculative science'),
-    // ('Mystery', 'Books focusing on solving a crime or unraveling a puzzle'),
-    // ('Romance', 'Books that explore love stories between characters'),
-    // ('Non-Fiction', 'Books that are based on real events or factual information'),
-    // ('Historical Fiction', 'Books set in a specific historical period'),
-    // ('Thriller', 'Books that are intense, suspenseful, and filled with excitement'),
-    // ('Horror', 'Books designed to evoke fear and suspense'),
-    // ('Adventure', 'Books focused on exciting and dangerous journeys or quests'),
-    // ('Biography', 'Books that tell the story of a persons life'),
-    // ('Poetry', 'Books containing written works in verse form'),
-    // ('Self-Help', 'Books offering advice or guidance on personal development'),
-    // ('Cookbook', 'Books with recipes and cooking tips'),
-    // ('Art', 'Books discussing different forms of art, artists, and techniques'),
-    // ('Philosophy', 'Books exploring fundamental questions about existence, knowledge, and ethics'),
-    // ('Drama', 'Books that focus on conflict and emotion through dialogue and performance')";
-
-    // // Execute the query
-    // if ($conn->query($sql) === TRUE) {
-    //     echo "New records created successfully. ";
-    //     echo "Rows affected: " . $conn->affected_rows;
-    // } else {
-    //     // Detailed error information
-    //     throw new Exception("Error: " . $sql . "\n" . $conn->error);
-    // }
-
-    // Optional: Verify inserted data
-    $verify_result = $conn->query("SELECT * FROM Book");
-    if ($verify_result->num_rows > 0) {
-        echo "\n\nVerification:\n";
-        while ($row = $verify_result->fetch_assoc()) {
-            echo "Genre: " . $row['title'] . "\n";
-        }
-    }
-
-    // Close connection
-    $conn->close();
-
-} catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
+    return $conn;
 }
-}
+
 function getBooks() {
     $conn = connectDatabase();
     // test($conn);
