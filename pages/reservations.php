@@ -22,7 +22,105 @@
         </ul>
     </div>
     <body class="background">
-        <h1>test</h1>
+    <div class="spacer"></div>
+    <div class="tableBackground">
+            <table>
+                <thead>
+                  <tr>
+                    <th>Reservation</th>
+                    <th>Card Number</th>
+                    <th>Customer</th>
+                    <th>Copy ID</th>
+                    <th>Title</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>000</th>
+                        <th>0000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>000</th>
+                        <th>"..."</th>
+                        <th>123 Main St.</th>
+                        <th>Reserved</th>
+                    </tr>
+                    <tr>
+                        <th>000</th>
+                        <th>0000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>000</th>
+                        <th>"..."</th>
+                        <th>123 Main St.</th>
+                        <th>Reserved</th>
+                    </tr>
+                    <tr>
+                        <th>000</th>
+                        <th>0000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>000</th>
+                        <th>"..."</th>
+                        <th>123 Main St.</th>
+                        <th>Reserved</th>
+                    </tr>
+                    <tr>
+                        <th>000</th>
+                        <th>0000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>000</th>
+                        <th>"..."</th>
+                        <th>123 Main St.</th>
+                        <th>Reserved</th>
+                    </tr>
+                    <tr>
+                        <th>000</th>
+                        <th>0000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>000</th>
+                        <th>"..."</th>
+                        <th>123 Main St.</th>
+                        <th>Reserved</th>
+                    </tr>
+                    <tr>
+                        <th>000</th>
+                        <th>0000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>000</th>
+                        <th>"..."</th>
+                        <th>123 Main St.</th>
+                        <th>Reserved</th>
+                    </tr>
+                    <tr>
+                        <th>000</th>
+                        <th>0000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>000</th>
+                        <th>"..."</th>
+                        <th>123 Main St.</th>
+                        <th>Reserved</th>
+                    </tr>
+                    <tr>
+                        <th>000</th>
+                        <th>0000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>000</th>
+                        <th>"..."</th>
+                        <th>123 Main St.</th>
+                        <th>Reserved</th>
+                    </tr>
+                    <tr>
+                        <th>000</th>
+                        <th>0000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>000</th>
+                        <th>"..."</th>
+                        <th>123 Main St.</th>
+                        <th>Reserved</th>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
     </body>
 
 

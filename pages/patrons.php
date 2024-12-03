@@ -22,7 +22,95 @@
         </ul>
     </div>
     <body class="background">
-        <h1>test</h1>
+    <div class="spacer"></div>
+    <div class="tableBackground">
+            <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Status</th>
+                    <th>Registration Due</th>
+                    <th>Address</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Jacob Marcus</th>
+                        <th>jmarcus@mail.com</th>
+                        <th>123-123-1234</th>
+                        <th>...</th>
+                        <th>11/29/2024</th>
+                        <th>123 Main St.</th>
+                    </tr>
+                    <tr>
+                        <th>Jacob Marcus</th>
+                        <th>jmarcus@mail.com</th>
+                        <th>123-123-1234</th>
+                        <th>...</th>
+                        <th>11/29/2024</th>
+                        <th>123 Main St.</th>
+                    </tr>
+                    <tr>
+                        <th>Jacob Marcus</th>
+                        <th>jmarcus@mail.com</th>
+                        <th>123-123-1234</th>
+                        <th>...</th>
+                        <th>11/29/2024</th>
+                        <th>123 Main St.</th>
+                    </tr>
+                    <tr>
+                        <th>Jacob Marcus</th>
+                        <th>jmarcus@mail.com</th>
+                        <th>123-123-1234</th>
+                        <th>...</th>
+                        <th>11/29/2024</th>
+                        <th>123 Main St.</th>
+                    </tr>
+                    <tr>
+                        <th>Jacob Marcus</th>
+                        <th>jmarcus@mail.com</th>
+                        <th>123-123-1234</th>
+                        <th>...</th>
+                        <th>11/29/2024</th>
+                        <th>123 Main St.</th>
+                    </tr>
+                    <tr>
+                        <th>Jacob Marcus</th>
+                        <th>jmarcus@mail.com</th>
+                        <th>123-123-1234</th>
+                        <th>...</th>
+                        <th>11/29/2024</th>
+                        <th>123 Main St.</th>
+                    </tr>
+                    <tr>
+                        <th>Jacob Marcus</th>
+                        <th>jmarcus@mail.com</th>
+                        <th>123-123-1234</th>
+                        <th>...</th>
+                        <th>11/29/2024</th>
+                        <th>123 Main St.</th>
+                    </tr>
+                    <tr>
+                        <th>Jacob Marcus</th>
+                        <th>jmarcus@mail.com</th>
+                        <th>123-123-1234</th>
+                        <th>...</th>
+                        <th>11/29/2024</th>
+                        <th>123 Main St.</th>
+                    </tr>
+                    <tr>
+                        <th>Jacob Marcus</th>
+                        <th>jmarcus@mail.com</th>
+                        <th>123-123-1234</th>
+                        <th>...</th>
+                        <th>11/29/2024</th>
+                        <th>123 Main St.</th>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
     </body>
 
 

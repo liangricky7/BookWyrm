@@ -22,7 +22,95 @@
         </ul>
     </div>
     <body class="background">
-        <h1>test</h1>
+    <div class="spacer"></div>
+    <div class="tableBackground">
+            <table>
+                <thead>
+                  <tr>
+                    <th>Loan ID</th>
+                    <th>Late Fee</th>
+                    <th>Checkout Date</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>Renewal Count</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>0000000</th>
+                        <th>$00.00</th>
+                        <th>11/15/2024</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>00</th>
+                    </tr>
+                    <tr>
+                        <th>0000000</th>
+                        <th>$00.00</th>
+                        <th>11/15/2024</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>00</th>
+                    </tr>
+                    <tr>
+                        <th>0000000</th>
+                        <th>$00.00</th>
+                        <th>11/15/2024</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>00</th>
+                    </tr>
+                    <tr>
+                        <th>0000000</th>
+                        <th>$00.00</th>
+                        <th>11/15/2024</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>00</th>
+                    </tr>
+                    <tr>
+                        <th>0000000</th>
+                        <th>$00.00</th>
+                        <th>11/15/2024</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>00</th>
+                    </tr>
+                    <tr>
+                        <th>0000000</th>
+                        <th>$00.00</th>
+                        <th>11/15/2024</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>00</th>
+                    </tr>
+                    <tr>
+                        <th>0000000</th>
+                        <th>$00.00</th>
+                        <th>11/15/2024</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>00</th>
+                    </tr>
+                    <tr>
+                        <th>0000000</th>
+                        <th>$00.00</th>
+                        <th>11/15/2024</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>00</th>
+                    </tr>
+                    <tr>
+                        <th>0000000</th>
+                        <th>$00.00</th>
+                        <th>11/15/2024</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>00</th>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
     </body>
 
 
