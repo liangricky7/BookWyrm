@@ -22,7 +22,95 @@
         </ul>
     </div>
     <body class="background">
-        <h1>test</h1>
+    <div class="tableBackground">
+            <table>
+                <thead>
+                  <tr>
+                    <th>Book Title</th>
+                    <th>ISBN</th>
+                    <th>Customer</th>
+                    <th>Checkout Date</th>
+                    <th>Due Date</th>
+                    <th>Amount Due</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>"..."</th>
+                        <th class="ISBN">0000000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>$000</th>
+                    </tr>
+                    <tr>
+                        <th>"..."</th>
+                        <th class="ISBN">0000000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>$000</th>
+                    </tr>
+                    <tr>
+                        <th>"..."</th>
+                        <th class="ISBN">0000000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>$000</th>
+                    </tr>
+                    <tr>
+                        <th>"..."</th>
+                        <th class="ISBN">0000000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>$000</th>
+                    </tr>
+                    <tr>
+                        <th>"..."</th>
+                        <th class="ISBN">0000000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>$000</th>
+                    </tr>
+                    <tr>
+                        <th>"..."</th>
+                        <th class="ISBN">0000000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>$000</th>
+                    </tr>
+                    <tr>
+                        <th>"..."</th>
+                        <th class="ISBN">0000000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>$000</th>
+                    </tr>
+                    <tr>
+                        <th>"..."</th>
+                        <th class="ISBN">0000000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>$000</th>
+                    </tr>
+                    <tr>
+                        <th>"..."</th>
+                        <th class="ISBN">0000000000000</th>
+                        <th>Jacob Marcus</th>
+                        <th>11/15/2024</th>
+                        <th>11/29/2024</th>
+                        <th>$000</th>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+
     </body>
 
 
