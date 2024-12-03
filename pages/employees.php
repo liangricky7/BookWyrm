@@ -17,7 +17,7 @@
             <li><a href="/index.php"><img src="../assets/NavBar/Dashboard.png" alt="Inventory Dashboard">Inventory Dashboard</a></li>
             <li><a href="/pages/books.php"><img src="../assets/NavBar/ManageBooks.png" alt="Book Dashboard">Book Dashboard</a></li>
             <li><a href="/pages/patrons.php"><img src="../assets/NavBar/ManagePatrons.png" alt="Manage Patrons">Manage Patrons</a></li>
-            <li><a href="/pages/reservations.php" class="activePage"><img src="../assets/NavBar/Reservations.png" alt="Manage Employees">Manage Employees</a></li>
+            <li><a href="/pages/employees.php" class="activePage"><img src="../assets/NavBar/Reservations.png" alt="Manage Employees">Manage Employees</a></li>
             <li><a href="/pages/fines.php"><img src="../assets/NavBar/Payments.png" alt="Payments/Fines">Payments/Fines</a></li>
         </ul>
     </div>
