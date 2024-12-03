@@ -113,6 +113,7 @@ function getAllBooks($sort_column = 'Title', $sort_order = 'asc') {
     $sort_order = in_array($sort_order, $valid_orders) ? $sort_order : 'asc';
 
     $sql = "SELECT 
+        b.book_id AS ID,
         b.title AS Title,
         CONCAT(a.first_name, ' ', a.last_name) AS Author,
         b.summary AS Summary,
@@ -200,7 +201,48 @@ function addBook() {
 $book_data = getAllBooks(
     $_GET['sort'] ?? 'Title', 
     $_GET['order'] ?? 'asc'
-)
+);
+
+function deleteBook($conn, $book_id) {
+    try {
+        // Start transaction
+        $conn->begin_transaction();
+
+        // Delete related records first (book_author, book_genre, etc.)
+        $related_tables = [
+            'Book_Author' => 'book_id',
+            'Book_Genre' => 'book_id',
+            'Publication' => 'book_id'
+        ];
+
+        foreach ($related_tables as $table => $foreign_key) {
+            $delete_related = $conn->prepare("DELETE FROM $table WHERE $foreign_key = ?");
+            $delete_related->bind_param("i", $book_id);
+            $delete_related->execute();
+        }
+
+        // Delete the book from main books table
+        $delete_book = $conn->prepare("DELETE FROM Book WHERE book_id = ?");
+        $delete_book->bind_param("i", $book_id);
+        $delete_book->execute();
+
+        // Commit transaction
+        $conn->commit();
+        return true;
+    } catch (Exception $e) {
+        // Rollback transaction on error
+        $conn->rollback();
+        error_log("Delete book failed: " . $e->getMessage());
+        return false;
+    }
+}
+
+if (isset($_GET['delete_id'])) {
+    $conn = connectDatabase();
+    deleteBook($conn, $_GET['delete_id']);
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -250,6 +292,11 @@ $book_data = getAllBooks(
                         <td><?php echo htmlspecialchars($book['Author']); ?></td>
                         <td><?php echo htmlspecialchars($book['Summary']); ?></td>
                         <td><?php echo htmlspecialchars($book['Genre']); ?></td>
+                        <td>
+                        <a href="?delete_id=<?php echo $book['ID']; ?>" 
+                           onclick="return confirm('Are you sure you want to delete this book?');"
+                           class="delete-btn">✖</a>
+                        </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
