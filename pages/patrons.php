@@ -1,3 +1,163 @@
+<?php
+function debugDB() {
+    // Database connection parameters
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "library";
+    
+    try {
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        
+        // Check connection
+        if ($conn->connect_error) {
+            throw new Exception("Connection failed: " . $conn->connect_error);
+        }
+    
+        // Get list of all tables in the database
+        $tables_result = $conn->query("SHOW TABLES");
+    
+        // Check if there are any tables
+        if ($tables_result->num_rows > 0) {
+            // Loop through each table
+            while ($table = $tables_result->fetch_array()) {
+                $table_name = $table[0];
+                
+                // Print table name
+                echo "<h2>Table: " . htmlspecialchars($table_name) . "</h2>";
+                
+                // Get table structure
+                $structure_result = $conn->query("DESCRIBE $table_name");
+                
+                // Print table columns
+                echo "<h3>Table Structure:</h3>";
+                echo "<table border='1'>";
+                echo "<tr><th>Column</th><th>Type</th><th>Null</th><th>Key</th><th>Default</th><th>Extra</th></tr>";
+                while ($column = $structure_result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($column['Field']) . "</td>";
+                    echo "<td>" . htmlspecialchars($column['Type']) . "</td>";
+                    echo "<td>" . htmlspecialchars($column['Null']) . "</td>";
+                    echo "<td>" . htmlspecialchars($column['Key']) . "</td>";
+                    echo "<td>" . htmlspecialchars($column['Default'] ?? 'NULL') . "</td>";
+                    echo "<td>" . htmlspecialchars($column['Extra']) . "</td>";
+                    echo "</tr>";
+                }
+                echo "</table>";
+                
+                // Get table data
+                $data_result = $conn->query("SELECT * FROM $table_name");
+                
+                // Print table data
+                echo "<h3>Table Data:</h3>";
+                if ($data_result->num_rows > 0) {
+                    echo "<table border='1'>";
+                    
+                    // Print headers
+                    echo "<tr>";
+                    $fields = $data_result->fetch_fields();
+                    foreach ($fields as $field) {
+                        echo "<th>" . htmlspecialchars($field->name) . "</th>";
+                    }
+                    echo "</tr>";
+                    
+                    // Print rows
+                    while ($row = $data_result->fetch_assoc()) {
+                        echo "<tr>";
+                        foreach ($row as $value) {
+                            echo "<td>" . htmlspecialchars($value ?? 'NULL') . "</td>";
+                        }
+                        echo "</tr>";
+                    }
+                    echo "</table>";
+                } else {
+                    echo "No data in table " . htmlspecialchars($table_name);
+                }
+                
+                echo "<hr>"; // Separator between tables
+            }
+        } else {
+            echo "No tables found in the database.";
+        }
+    
+        // Close connection
+        $conn->close();
+    
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+function connectDatabase() {
+    $host = '127.0.0.1';
+    $dbname = 'library';
+    $username = 'root';
+    $password = '';
+
+    $conn = new mysqli($host, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    return $conn;
+}
+
+function getPatrons() {
+    $conn = connectDatabase();
+    $sql = "SELECT 
+        CONCAT(c.first_name, ' ', c.last_name) AS Full_Name,
+        c.email AS Email,
+        c.phone_number AS Phone,
+        CONCAT(
+            COALESCE(street_number, ''),
+            CASE WHEN street_number IS NOT NULL AND street_name IS NOT NULL THEN ' ' ELSE '' END,
+            COALESCE(street_name, ''),
+            CASE WHEN apt_number IS NOT NULL THEN CONCAT(' #', apt_number) ELSE '' END,
+            ', ',
+            COALESCE(city, ''),
+            ', ',
+            COALESCE(state, ''),
+            ' ',
+            COALESCE(zip, '')
+        ) AS Full_Address,
+        c.phone_number AS Phone,
+        c.registration_date AS Registration_Date,
+        c.status AS Status
+    FROM 
+        Customer c;";
+
+    $result = $conn->query($sql);
+    
+    $patrons = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $patrons[] = $row;
+        }
+    }
+    $conn->close();
+    return $patrons;
+}
+
+function displayPatrons($patrons) {
+    if (empty($patrons)) {
+        echo "<tr><th colspan='6'>No patrons found.</th></tr>";
+    } else {
+        foreach ($patrons as $patron) {
+            echo "<tr>";
+            echo "<th>" . $patron['Full_Name'] . "</th>";
+            echo "<th>" . $patron['Email'] . "</th>";
+            echo "<th>" . $patron['Phone'] . "</th>";
+            echo "<th>" . $patron['Full_Address'] . "</th>";
+            echo "<th>" . $patron['Registration_Date'] . "</th>";
+            echo "<th>" . $patron['Status'] . "</th>";
+            echo "</tr>";
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -30,85 +190,12 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone Number</th>
-                    <th>Status</th>
-                    <th>Registration Due</th>
                     <th>Address</th>
+                    <th>Registration Date</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <th>Jacob Marcus</th>
-                        <th>jmarcus@mail.com</th>
-                        <th>123-123-1234</th>
-                        <th>...</th>
-                        <th>11/29/2024</th>
-                        <th>123 Main St.</th>
-                    </tr>
-                    <tr>
-                        <th>Jacob Marcus</th>
-                        <th>jmarcus@mail.com</th>
-                        <th>123-123-1234</th>
-                        <th>...</th>
-                        <th>11/29/2024</th>
-                        <th>123 Main St.</th>
-                    </tr>
-                    <tr>
-                        <th>Jacob Marcus</th>
-                        <th>jmarcus@mail.com</th>
-                        <th>123-123-1234</th>
-                        <th>...</th>
-                        <th>11/29/2024</th>
-                        <th>123 Main St.</th>
-                    </tr>
-                    <tr>
-                        <th>Jacob Marcus</th>
-                        <th>jmarcus@mail.com</th>
-                        <th>123-123-1234</th>
-                        <th>...</th>
-                        <th>11/29/2024</th>
-                        <th>123 Main St.</th>
-                    </tr>
-                    <tr>
-                        <th>Jacob Marcus</th>
-                        <th>jmarcus@mail.com</th>
-                        <th>123-123-1234</th>
-                        <th>...</th>
-                        <th>11/29/2024</th>
-                        <th>123 Main St.</th>
-                    </tr>
-                    <tr>
-                        <th>Jacob Marcus</th>
-                        <th>jmarcus@mail.com</th>
-                        <th>123-123-1234</th>
-                        <th>...</th>
-                        <th>11/29/2024</th>
-                        <th>123 Main St.</th>
-                    </tr>
-                    <tr>
-                        <th>Jacob Marcus</th>
-                        <th>jmarcus@mail.com</th>
-                        <th>123-123-1234</th>
-                        <th>...</th>
-                        <th>11/29/2024</th>
-                        <th>123 Main St.</th>
-                    </tr>
-                    <tr>
-                        <th>Jacob Marcus</th>
-                        <th>jmarcus@mail.com</th>
-                        <th>123-123-1234</th>
-                        <th>...</th>
-                        <th>11/29/2024</th>
-                        <th>123 Main St.</th>
-                    </tr>
-                    <tr>
-                        <th>Jacob Marcus</th>
-                        <th>jmarcus@mail.com</th>
-                        <th>123-123-1234</th>
-                        <th>...</th>
-                        <th>11/29/2024</th>
-                        <th>123 Main St.</th>
-                    </tr>
-                </tbody>
+                <?php displayPatrons(getPatrons())?>
               </table>
         </div>
     </body>

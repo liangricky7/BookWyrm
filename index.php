@@ -192,16 +192,16 @@ function getBooks() {
 
 function displayBooks($books) {
     if (empty($books)) {
-        echo "<tr><td colspan='6'>No books found.</td></tr>";
+        echo "<tr><th colspan='6'>No books found.</th></tr>";
     } else {
         foreach ($books as $book) {
             echo "<tr>";
-            echo "<td>" . $book['Book_Title'] . "</td>";
-            echo "<td class='ISBN'>" . (is_null($book['ISBN']) ? "EBook" : $book['ISBN']) . "</td>";
-            echo "<td>" . $book['Full_Name'] . "</td>";
-            echo "<td>" . $book['Checkout_Date'] . "</td>";
-            echo "<td>" . $book['Due_Date'] . "</td>";
-            echo "<td>" . $book['Late_Fee'] . "</td>";
+            echo "<th>" . $book['Book_Title'] . "</th>";
+            echo "<th class='ISBN'>" . (is_null($book['ISBN']) ? "EBook" : $book['ISBN']) . "</th>";
+            echo "<th>" . $book['Full_Name'] . "</th>";
+            echo "<th>" . $book['Checkout_Date'] . "</th>";
+            echo "<th>" . $book['Due_Date'] . "</th>";
+            echo "<th>" . $book['Late_Fee'] . "</th>";
             echo "</tr>";
         }
     }

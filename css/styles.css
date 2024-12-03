@@ -108,6 +108,12 @@ table {
     color: rgb(61, 145, 255);
 }
 
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
 th, td {
     padding: 12px; /* Adds space inside each cell */
     text-align: left; /* Aligns text to the left */
@@ -121,6 +127,7 @@ th {
 }
 
 tbody {
+    /* display: block; */
     color: #333333;
     font-weight: 200;
 }
