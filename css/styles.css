@@ -35,6 +35,7 @@
     list-style-type: none;
     margin: 0 auto; /* Center the list inside the navbar */
     padding: 0;
+    margin-left: 2.5vw;
 }
 
 .navBar li {
