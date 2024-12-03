@@ -14,11 +14,11 @@
     <div class="navBar">
         <img src="../assets/Logo.png" alt="Book Wyrm Logo" class="logo">
         <ul>
-            <li><a href="/index.html"><img src="../assets/NavBar/Dashboard.png" alt="Dashboard">Dashboard</a></li>
-            <li><a href="/pages/books.html"><img src="../assets/NavBar/ManageBooks.png" alt="Manage Books">Manage Books</a></li>
-            <li><a href="/pages/patrons.html" class="activePage"><img src="../assets/NavBar/ManagePatrons.png" alt="Manage Patrons">Manage Patrons</a></li>
-            <li><a href="/pages/reservations.html"><img src="../assets/NavBar/Reservations.png" alt="Reservations">Reservations</a></li>
-            <li><a href="/pages/fines.html"><img src="../assets/NavBar/Payments.png" alt="Payments/Fines">Payments/Fines</a></li>
+            <li><a href="/index.php"><img src="../assets/NavBar/Dashboard.png" alt="Dashboard">Dashboard</a></li>
+            <li><a href="/pages/books.php"><img src="../assets/NavBar/ManageBooks.png" alt="Manage Books">Manage Books</a></li>
+            <li><a href="/pages/patrons.php" class="activePage"><img src="../assets/NavBar/ManagePatrons.png" alt="Manage Patrons">Manage Patrons</a></li>
+            <li><a href="/pages/reservations.php"><img src="../assets/NavBar/Reservations.png" alt="Reservations">Reservations</a></li>
+            <li><a href="/pages/fines.php"><img src="../assets/NavBar/Payments.png" alt="Payments/Fines">Payments/Fines</a></li>
         </ul>
     </div>
     <body class="background">
