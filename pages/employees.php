@@ -104,8 +104,14 @@ function connectDatabase() {
     return $conn;
 }
 
-function getEmployees() {
+function getAllEmployees($sort_column = 'Full_Name', $sort_order = 'asc') {
     $conn = connectDatabase();
+    $valid_columns = ['Full_Name', 'Email', 'Phone', 'Position', 'Status'];
+    $valid_orders = ['asc', 'desc'];
+
+    $sort_column = in_array($sort_column, $valid_columns) ? $sort_column : 'Full_Name';
+    $sort_order = in_array($sort_order, $valid_orders) ? $sort_order : 'asc';
+
     $sql = "SELECT 
         CONCAT(e.first_name, ' ', e.last_name) AS Full_Name,
         e.email AS Email,
@@ -122,11 +128,12 @@ function getEmployees() {
             ' ',
             COALESCE(e.zip, '')
         ) AS Full_Address,
-        e.phone_number AS Phone,
         e.position AS Position,
         e.status AS Status
     FROM 
-        Employee e;";
+        Employee e
+    ORDER BY 
+        $sort_column $sort_order;";
 
     $result = $conn->query($sql);
     
@@ -137,25 +144,18 @@ function getEmployees() {
         }
     }
     $conn->close();
-    return $employees;
+    return [
+        'employees' => $employees,
+        'sort_column' => $sort_column,
+        'sort_order' => $sort_order,
+        'toggle_order' => ($sort_order === 'asc') ? 'desc' : 'asc'
+    ];
 }
 
-function displayEmployees($employees) {
-    if (empty($employees)) {
-        echo "<tr><th colspan='6'>No employees found.</th></tr>";
-    } else {
-        foreach ($employees as $employee) {
-            echo "<tr>";
-            echo "<th>" . $employee['Full_Name'] . "</th>";
-            echo "<th>" . $employee['Email'] . "</th>";
-            echo "<th>" . $employee['Phone'] . "</th>";
-            echo "<th>" . $employee['Full_Address'] . "</th>";
-            echo "<th>" . $employee['Position'] . "</th>";
-            echo "<th>" . $employee['Status'] . "</th>";
-            echo "</tr>";
-        }
-    }
-}
+$employee_data = getAllEmployees(
+    $_GET['sort'] ?? 'Full_Name', 
+    $_GET['order'] ?? 'asc'
+)
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -177,7 +177,6 @@ function displayEmployees($employees) {
             <li><a href="/pages/books.php"><img src="../assets/NavBar/ManageBooks.png" alt="Book Dashboard">Book Dashboard</a></li>
             <li><a href="/pages/patrons.php"><img src="../assets/NavBar/ManagePatrons.png" alt="Manage Patrons">Manage Patrons</a></li>
             <li><a href="/pages/employees.php" class="activePage"><img src="../assets/NavBar/Reservations.png" alt="Manage Employees">Manage Employees</a></li>
-            <li><a href="/pages/fines.php"><img src="../assets/NavBar/Payments.png" alt="Payments/Fines">Payments/Fines</a></li>
         </ul>
     </div>
     <body class="background">
@@ -186,16 +185,37 @@ function displayEmployees($employees) {
             <table>
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>Position</th>
-                    <th>Status</th>
+                    <th onclick="window.location.href='?sort=Full_Name&order=<?php echo $employee_data['sort_column'] === 'Full_Name' ? $employee_data['toggle_order'] : 'asc'; ?>'">
+                        Name <?php echo $employee_data['sort_column'] === 'Full_Name' ? ($employee_data['sort_order'] === 'asc' ? '▲' : '▼') : ''; ?>
+                    </th>
+                    <th onclick="window.location.href='?sort=Email&order=<?php echo $employee_data['sort_column'] === 'Email' ? $employee_data['toggle_order'] : 'asc'; ?>'">
+                        Email <?php echo $employee_data['sort_column'] === 'Email' ? ($employee_data['sort_order'] === 'asc' ? '▲' : '▼') : ''; ?>
+                    </th>
+                    <th onclick="window.location.href='?sort=Phone&order=<?php echo $employee_data['sort_column'] === 'Phone' ? $employee_data['toggle_order'] : 'asc'; ?>'">
+                        Phone <?php echo $employee_data['sort_column'] === 'Phone' ? ($employee_data['sort_order'] === 'asc' ? '▲' : '▼') : ''; ?>
+                    </th>
+                    <th>
+                        Address
+                    </th>
+                    <th onclick="window.location.href='?sort=Position&order=<?php echo $employee_data['sort_column'] === 'Position' ? $employee_data['toggle_order'] : 'asc'; ?>'">
+                        Position <?php echo $employee_data['sort_column'] === 'Position' ? ($employee_data['sort_order'] === 'asc' ? '▲' : '▼') : ''; ?>
+                    </th>
+                    <th onclick="window.location.href='?sort=Status&order=<?php echo $employee_data['sort_column'] === 'Status' ? $employee_data['toggle_order'] : 'asc'; ?>'">
+                        Status <?php echo $employee_data['sort_column'] === 'Status' ? ($employee_data['sort_order'] === 'asc' ? '▲' : '▼') : ''; ?>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php displayEmployees(getEmployees()); ?>
+                    <?php foreach ($employee_data['employees'] as $employee): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($employee['Full_Name']); ?></td>
+                        <td><?php echo htmlspecialchars($employee['Email']); ?></td>
+                        <td><?php echo htmlspecialchars($employee['Phone']); ?></td>
+                        <td><?php echo htmlspecialchars($employee['Full_Address']); ?></td>
+                        <td><?php echo htmlspecialchars($employee['Position']); ?></td>
+                        <td><?php echo htmlspecialchars($employee['Status']); ?></td>
+                    </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

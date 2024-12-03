@@ -104,8 +104,14 @@ function connectDatabase() {
     return $conn;
 }
 
-function getPatrons() {
+function getAllPatrons($sort_column = 'Full_Name', $sort_order = 'asc') {
     $conn = connectDatabase();
+    $valid_columns = ['Full_Name', 'Email', 'Phone', 'Registration_Date', 'Status'];
+    $valid_orders = ['asc', 'desc'];
+
+    $sort_column = in_array($sort_column, $valid_columns) ? $sort_column : 'Full_Name';
+    $sort_order = in_array($sort_order, $valid_orders) ? $sort_order : 'asc';
+
     $sql = "SELECT 
         CONCAT(c.first_name, ' ', c.last_name) AS Full_Name,
         c.email AS Email,
@@ -122,11 +128,12 @@ function getPatrons() {
             ' ',
             COALESCE(zip, '')
         ) AS Full_Address,
-        c.phone_number AS Phone,
         c.registration_date AS Registration_Date,
         c.status AS Status
     FROM 
-        Customer c;";
+        Customer c
+    ORDER BY 
+        $sort_column $sort_order;";
 
     $result = $conn->query($sql);
     
@@ -137,25 +144,18 @@ function getPatrons() {
         }
     }
     $conn->close();
-    return $patrons;
+    return [
+        'patrons' => $patrons,
+        'sort_column' => $sort_column,
+        'sort_order' => $sort_order,
+        'toggle_order' => ($sort_order === 'asc') ? 'desc' : 'asc'
+    ];
 }
 
-function displayPatrons($patrons) {
-    if (empty($patrons)) {
-        echo "<tr><th colspan='6'>No patrons found.</th></tr>";
-    } else {
-        foreach ($patrons as $patron) {
-            echo "<tr>";
-            echo "<th>" . $patron['Full_Name'] . "</th>";
-            echo "<th>" . $patron['Email'] . "</th>";
-            echo "<th>" . $patron['Phone'] . "</th>";
-            echo "<th>" . $patron['Full_Address'] . "</th>";
-            echo "<th>" . $patron['Registration_Date'] . "</th>";
-            echo "<th>" . $patron['Status'] . "</th>";
-            echo "</tr>";
-        }
-    }
-}
+$patron_data = getAllPatrons(
+    $_GET['sort'] ?? 'Full_Name', 
+    $_GET['order'] ?? 'asc'
+)
 ?>
 
 <!DOCTYPE html>
@@ -178,7 +178,6 @@ function displayPatrons($patrons) {
             <li><a href="/pages/books.php"><img src="../assets/NavBar/ManageBooks.png" alt="Book Dashboard">Book Dashboard</a></li>
             <li><a href="/pages/patrons.php" class="activePage"><img src="../assets/NavBar/ManagePatrons.png" alt="Manage Patrons">Manage Patrons</a></li>
             <li><a href="/pages/employees.php"><img src="../assets/NavBar/Reservations.png" alt="Manage Employees">Manage Employees</a></li>
-            <li><a href="/pages/fines.php"><img src="../assets/NavBar/Payments.png" alt="Payments/Fines">Payments/Fines</a></li>
         </ul>
     </div>
     <body class="background">
@@ -187,15 +186,36 @@ function displayPatrons($patrons) {
             <table>
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Address</th>
-                    <th>Registration Date</th>
-                    <th>Status</th>
+                    <th onclick="window.location.href='?sort=Full_Name&order=<?php echo $patron_data['sort_column'] === 'Full_Name' ? $patron_data['toggle_order'] : 'asc'; ?>'">
+                        Name <?php echo $patron_data['sort_column'] === 'Full_Name' ? ($patron_data['sort_order'] === 'asc' ? '▲' : '▼') : ''; ?>
+                    </th>
+                    <th onclick="window.location.href='?sort=Email&order=<?php echo $patron_data['sort_column'] === 'Email' ? $patron_data['toggle_order'] : 'asc'; ?>'">
+                        Email <?php echo $patron_data['sort_column'] === 'Email' ? ($patron_data['sort_order'] === 'asc' ? '▲' : '▼') : ''; ?>
+                    </th>
+                    <th onclick="window.location.href='?sort=Phone&order=<?php echo $patron_data['sort_column'] === 'Phone' ? $patron_data['toggle_order'] : 'asc'; ?>'">
+                        Phone Number <?php echo $patron_data['sort_column'] === 'Phone' ? ($patron_data['sort_order'] === 'asc' ? '▲' : '▼') : ''; ?>
+                    </th>
+                    <th>
+                        Address
+                    </th>
+                    <th onclick="window.location.href='?sort=Registration_Date&order=<?php echo $patron_data['sort_column'] === 'Registration_Date' ? $patron_data['toggle_order'] : 'asc'; ?>'">
+                        Registration Date <?php echo $patron_data['sort_column'] === 'Registration_Date' ? ($patron_data['sort_order'] === 'asc' ? '▲' : '▼') : ''; ?>
+                    </th>
+                    <th onclick="window.location.href='?sort=Status&order=<?php echo $patron_data['sort_column'] === 'Status' ? $patron_data['toggle_order'] : 'asc'; ?>'">
+                        Status <?php echo $patron_data['sort_column'] === 'Status' ? ($patron_data['sort_order'] === 'asc' ? '▲' : '▼') : ''; ?>
+                    </th>
                   </tr>
                 </thead>
-                <?php displayPatrons(getPatrons())?>
+                <?php foreach ($patron_data['patrons'] as $patron): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($patron['Full_Name']); ?></td>
+                        <td><?php echo htmlspecialchars($patron['Email']); ?></td>
+                        <td><?php echo htmlspecialchars($patron['Phone']); ?></td>
+                        <td><?php echo htmlspecialchars($patron['Full_Address']); ?></td>
+                        <td><?php echo htmlspecialchars($patron['Registration_Date']); ?></td>
+                        <td><?php echo htmlspecialchars($patron['Status']); ?></td>
+                    </tr>
+                    <?php endforeach; ?>
               </table>
         </div>
     </body>

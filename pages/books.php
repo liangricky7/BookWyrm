@@ -104,8 +104,14 @@ function connectDatabase() {
     return $conn;
 }
 
-function getAllBooks() {
+function getAllBooks($sort_column = 'Title', $sort_order = 'asc') {
     $conn = connectDatabase();
+    $valid_columns = ['Title', 'Author', 'Genre'];
+    $valid_orders = ['asc', 'desc'];
+
+    $sort_column = in_array($sort_column, $valid_columns) ? $sort_column : 'Title';
+    $sort_order = in_array($sort_order, $valid_orders) ? $sort_order : 'asc';
+
     $sql = "SELECT 
         b.title AS Title,
         CONCAT(a.first_name, ' ', a.last_name) AS Author,
@@ -119,34 +125,82 @@ function getAllBooks() {
     JOIN
         Author a ON a.author_id = ba.author_id
     JOIN 
-        Book_Genre bg ON bg.book_id = b.book_id;";
+        Book_Genre bg ON bg.book_id = b.book_id
+    ORDER BY 
+        $sort_column $sort_order;";
 
     $result = $conn->query($sql);
     
-    $patrons = [];
+    $books = [];
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $patrons[] = $row;
+            $books[] = $row;
         }
     }
     $conn->close();
-    return $patrons;
+    return [
+        'books' => $books,
+        'sort_column' => $sort_column,
+        'sort_order' => $sort_order,
+        'toggle_order' => ($sort_order === 'asc') ? 'desc' : 'asc'
+    ];
 }
 
-function displayAllBooks($patrons) {
-    if (empty($patrons)) {
-        echo "<tr><th colspan='5'>No patrons found.</th></tr>";
-    } else {
-        foreach ($patrons as $patron) {
-            echo "<tr>";
-            echo "<th>" . $patron['Title'] . "</th>";
-            echo "<th>" . $patron['Author'] . "</th>";
-            echo "<th>" . $patron['Summary'] . "</th>";
-            echo "<th>" . $patron['Genre'] . "</th>";
-            echo "</tr>";
+function addBook() {
+    $servername = '127.0.0.1';
+    $dbname = 'library';
+    $username = 'root';
+    $password = '';
+    $title = $summary = $reading_age = $dewey_decimal = $series = $genre = $author = "";
+    $message = "";
+    
+    // Check if form is submitted
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+    
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
         }
+    
+        // Sanitize and validate input
+        $title = $conn->real_escape_string(trim($_POST['title']));
+        $summary = $conn->real_escape_string(trim($_POST['summary']));
+        $reading_age = $conn->real_escape_string(trim($_POST['reading_age']));
+        $dewey_decimal = $conn->real_escape_string(trim($_POST['dewey_decimal']));
+        $series = $conn->real_escape_string(trim($_POST['series']));
+        $genre = $conn->real_escape_string(trim($_POST['genre']));
+        $author = $conn->real_escape_string(trim($_POST['author']));
+    
+        // Prepare SQL insert statement
+        $sql = "INSERT INTO Book (Title, Summary, ReadingAge, DeweyDecimal, Series) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+    
+        // Prepare and bind
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssssss", $title, $summary, $reading_age, $dewey_decimal, $series, $genre, $author);
+    
+        // Execute the statement
+        if ($stmt->execute()) {
+            $message = "New book added successfully!";
+            
+            // Clear form fields after successful submission
+            $title = $summary = $reading_age = $dewey_decimal = $series = $genre = $author = "";
+        } else {
+            $message = "Error: " . $stmt->error;
+        }
+    
+        // Close statement and connection
+        $stmt->close();
+        $conn->close();
     }
 }
+
+$book_data = getAllBooks(
+    $_GET['sort'] ?? 'Title', 
+    $_GET['order'] ?? 'asc'
+)
 ?>
 
 <!DOCTYPE html>
@@ -169,7 +223,6 @@ function displayAllBooks($patrons) {
             <li><a href="/pages/books.php" class="activePage"><img src="../assets/NavBar/ManageBooks.png" alt="Book Dashboard">Book Dashboard</a></li>
             <li><a href="/pages/patrons.php"><img src="../assets/NavBar/ManagePatrons.png" alt="Manage Patrons">Manage Patrons</a></li>
             <li><a href="/pages/employees.php"><img src="../assets/NavBar/Reservations.png" alt="Manage Employees">Manage Employees</a></li>
-            <li><a href="/pages/fines.php"><img src="../assets/NavBar/Payments.png" alt="Payments/Fines">Payments/Fines</a></li>
         </ul>
     </div>
     <body class="background">
@@ -178,14 +231,27 @@ function displayAllBooks($patrons) {
             <table>
                 <thead>
                   <tr>
-                    <th>Book Title</th>
-                    <th>Author</th>
+                    <th onclick="window.location.href='?sort=Title&order=<?php echo $book_data['sort_column'] === 'Title' ? $book_data['toggle_order'] : 'asc'; ?>'">
+                        Book Title <?php echo $book_data['sort_column'] === 'Title' ? ($book_data['sort_order'] === 'asc' ? '▲' : '▼') : ''; ?>
+                    </th>
+                    <th onclick="window.location.href='?sort=Author&order=<?php echo $book_data['sort_column'] === 'Author' ? $book_data['toggle_order'] : 'asc'; ?>'">
+                        Author <?php echo $book_data['sort_column'] === 'Author' ? ($book_data['sort_order'] === 'asc' ? '▲' : '▼') : ''; ?>
+                    </th>
                     <th>Synopsis</th>
-                    <th>Genre</th>
+                    <th onclick="window.location.href='?sort=Genre&order=<?php echo $book_data['sort_column'] === 'Genre' ? $book_data['toggle_order'] : 'asc'; ?>'">
+                        Genre <?php echo $book_data['sort_column'] === 'Genre' ? ($book_data['sort_order'] === 'asc' ? '▲' : '▼') : ''; ?>
+                    </th>
                   </tr>
                 </thead>
                 <tbody> 
-                    <?php displayAllBooks(getAllBooks())?>
+                    <?php foreach ($book_data['books'] as $book): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($book['Title']); ?></td>
+                        <td><?php echo htmlspecialchars($book['Author']); ?></td>
+                        <td><?php echo htmlspecialchars($book['Summary']); ?></td>
+                        <td><?php echo htmlspecialchars($book['Genre']); ?></td>
+                    </tr>
+                    <?php endforeach; ?>
                 </tbody>
               </table>
         </div>

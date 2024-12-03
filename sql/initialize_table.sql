@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Genre (
 );
 
 CREATE TABLE IF NOT EXISTS Book (
-    book_id INT PRIMARY KEY,
+    book_id INT AUTO_INCREMENT PRIMARY KEY ,
     title VARCHAR(255),
     summary TEXT,
     reading_age INT,
