@@ -83,7 +83,7 @@ table {
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
     border-collapse: collapse; /* Ensures borders are merged */
-    margin: 20px 0; /* Adds spacing around the table */
+    margin: 0px 0; /* Adds spacing around the table */
 }
   
 .ISBN {
